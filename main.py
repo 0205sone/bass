@@ -3,7 +3,7 @@ import sounddevice as sd
 import numpy as np
 import librosa
 
-# 音階の基本周波数
+# 音階の設定
 TARGET_FREQUENCIES = {
     "E": 41.2,
     "A": 55.0,
@@ -19,16 +19,16 @@ WIDTH, HEIGHT = 800, 400
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Bass Tuner")
 
-# 色定義
+# 色の設定
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-# フォント設定
+# フォントの設定
 font = pygame.font.Font(None, 36)
 
-# 音階選択ボタンの座標
+# 音階選択ボタンの場所を指定
 buttons = {
     "E": pygame.Rect(100, 300, 100, 50),
     "A": pygame.Rect(250, 300, 100, 50),
@@ -36,7 +36,7 @@ buttons = {
     "G": pygame.Rect(550, 300, 100, 50),
 }
 
-# 現在のターゲット音階
+# 現在の音階
 current_target = "E"
 
 # マイク設定
@@ -45,7 +45,7 @@ BUFFER_SIZE = 1024
 
 
 def get_pitch(data, sample_rate):
-  """音高を取得する"""
+  """音の高さを取得する"""
   data = data / np.max(np.abs(data))  # 正規化
   pitches = librosa.pyin(data, fmin=30, fmax=500, sr=sample_rate)
   if pitches is not None and len(pitches) > 0:
@@ -64,7 +64,7 @@ sd.InputStream(callback=audio_callback, channels=1,
                samplerate=SAMPLE_RATE, blocksize=BUFFER_SIZE).start()
 detected_pitch = 0
 
-# メインループ
+# ループ
 running = True
 while running:
   screen.fill(WHITE)
